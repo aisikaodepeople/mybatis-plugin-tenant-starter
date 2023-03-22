@@ -18,8 +18,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.SqlCommandType;
@@ -42,7 +40,6 @@ import java.util.stream.Collectors;
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class}),
 })
 public class TenantPluginInterceptor implements Interceptor {
-    protected final Log logger = LogFactory.getLog(this.getClass());
 
     private ITenantDefine tenantDefine;
 
@@ -139,7 +136,6 @@ public class TenantPluginInterceptor implements Interceptor {
             processDelete((Delete) statement, index, sql, obj);
         }
         sql = statement.toString();
-
 
 
         return sql;
@@ -259,10 +255,6 @@ public class TenantPluginInterceptor implements Interceptor {
                 }
                 sb.append(processParser(statement, i, sql, obj));
                 i++;
-            }
-
-            if (logger.isDebugEnabled()) {
-                logger.debug("the real executed SQL is : " + sql);
             }
 
             return sb.toString();
